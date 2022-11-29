@@ -1,6 +1,6 @@
 package com.example.noteapp.feature_note.domain.use_case
 
-import com.example.noteapp.feature_note.domain.modul.Note
+import com.example.noteapp.feature_note.domain.model.Note
 import com.example.noteapp.feature_note.domain.repository.NoteRepository
 import com.example.noteapp.feature_note.domain.util.NoteOrder
 import com.example.noteapp.feature_note.domain.util.OrderType
