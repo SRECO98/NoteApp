@@ -33,6 +33,7 @@ fun NoteItem(
     Box(
         modifier = modifier
     ) {
+
         Canvas(
             modifier = Modifier.matchParentSize()
         ) {
@@ -69,6 +70,7 @@ fun NoteItem(
                 )
             }
         }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -91,6 +93,7 @@ fun NoteItem(
                 overflow = TextOverflow.Ellipsis // text gets cut off if its to long
             )
         }
+
         IconButton(
             onClick = onDeleteClick,
             modifier = Modifier.align(Alignment.BottomEnd) //putting trash can in left down corner.
@@ -100,5 +103,6 @@ fun NoteItem(
                 contentDescription = "Delete note"
             )
         }
+
     }
 }
