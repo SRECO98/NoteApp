@@ -4,4 +4,5 @@ data class NoteUseCases( //this class will be ejected in viewmodel, because we w
     val getNotesUseCase: GetNotesUseCase,
     val deleteNoteUseCase: DeleteNoteUseCase,
     val addNoteUseCase: AddNoteUseCase,
+    val getNoteUseCase: GetNoteUseCase,
 )
