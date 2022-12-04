@@ -48,4 +48,55 @@ class GetNotesUseCaseTest{
         }
     }
 
+    @Test
+    fun `Order notes by title descending, correct order`() = runBlocking{
+        //we use first here cause its returning a flow and not a list, so we need only first emission
+        val notes = getNotesUseCase(NoteOrder.Title(OrderType.Descending)).first() //getting list of notes
+
+        for(i in 0..notes.size - 2){
+            assertThat(notes[i].title).isGreaterThan(notes[i+1].title)
+        }
+    }
+
+    @Test
+    fun `Order notes by date ascending, correct order`() = runBlocking{
+        //we use first here cause its returning a flow and not a list, so we need only first emission
+        val notes = getNotesUseCase(NoteOrder.Date(OrderType.Ascending)).first() //getting list of notes
+
+        for(i in 0..notes.size - 2){
+            assertThat(notes[i].timestamp).isLessThan(notes[i+1].timestamp)
+        }
+    }
+
+    @Test
+    fun `Order notes by date descending, correct order`() = runBlocking{
+        //we use first here cause its returning a flow and not a list, so we need only first emission
+        val notes = getNotesUseCase(NoteOrder.Date(OrderType.Descending)).first() //getting list of notes
+
+        for(i in 0..notes.size - 2){
+            assertThat(notes[i].timestamp).isGreaterThan(notes[i+1].timestamp)
+        }
+    }
+
+    @Test
+    fun `Order notes by color ascending, correct order`() = runBlocking{
+        //we use first here cause its returning a flow and not a list, so we need only first emission
+        val notes = getNotesUseCase(NoteOrder.Color(OrderType.Ascending)).first() //getting list of notes
+
+        for(i in 0..notes.size - 2){
+            assertThat(notes[i].color).isLessThan(notes[i+1].color)
+        }
+    }
+
+    @Test
+    fun `Order notes by color descending, correct order`() = runBlocking{
+        //we use first here cause its returning a flow and not a list, so we need only first emission
+        val notes = getNotesUseCase(NoteOrder.Color(OrderType.Descending)).first() //getting list of notes
+
+        for(i in 0..notes.size - 2){
+            assertThat(notes[i].color).isGreaterThan(notes[i+1].color)
+        }
+    }
+
+
 }
