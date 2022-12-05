@@ -119,4 +119,49 @@ class NotesEndToEndTest {
             .onNodeWithText("test_title2")
             .assertIsDisplayed() //cheking can we find a changed Note in the list
     }
+
+    @Test
+    fun saveNewNotes_orderByTitleDescending(){
+        for(i in 1..3){ //making three new Notes
+            composeRule
+                .onNodeWithContentDescription("Add note")
+                .performClick()
+            //now we are on the next screen after clicking floating button and also we have to add TestTags
+            composeRule
+                .onNodeWithTag(TestTags.TITLE_TEXT_FIELD)
+                .performTextInput(i.toString()) //this text will be entered in text field for title!
+            composeRule
+                .onNodeWithTag(TestTags.CONTENT_TEXT_FIELD)
+                .performTextInput(i.toString())
+            composeRule
+                .onNodeWithContentDescription("Save note")
+                .performClick()
+            //Now we are again at first NotesScreen after saving EditedNote:
+        }
+        //checking are new Notes on the Screen
+        composeRule.onNodeWithText("1").assertIsDisplayed()
+        composeRule.onNodeWithText("2").assertIsDisplayed()
+        composeRule.onNodeWithText("3").assertIsDisplayed()
+
+        composeRule
+            .onNodeWithContentDescription("Sort")
+            .performClick()
+        composeRule
+            .onNodeWithContentDescription("Title") //Added Modifier.semantics{} in DefaultRadioButton
+            .performClick() //ordering by Title
+        composeRule
+            .onNodeWithContentDescription("Descending")
+            .performClick() //ordering Descending
+
+        composeRule
+            .onAllNodesWithTag(TestTags.NOTE_ITEM)[0] //this return 3 Notes, but we need only first one.
+            .assertTextContains("3") //If the first one contains "3" after sorting by title descending the sort is working.
+        composeRule
+            .onAllNodesWithTag(TestTags.NOTE_ITEM)[1]
+            .assertTextContains("2")
+        composeRule
+            .onAllNodesWithTag(TestTags.NOTE_ITEM)[2]
+            .assertTextContains("1")
+    }
+
 }
