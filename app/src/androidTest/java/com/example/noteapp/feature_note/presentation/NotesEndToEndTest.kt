@@ -1,11 +1,13 @@
 package com.example.noteapp.feature_note.presentation
 
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.noteapp.core.util.TestTags
 import com.example.noteapp.di.AppModule
 import com.example.noteapp.feature_note.presentation.add_edit_note.AddEditNoteScreen
 import com.example.noteapp.feature_note.presentation.notes.NotesScreen
@@ -16,6 +18,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 
 @HiltAndroidTest
 @UninstallModules(AppModule::class)//hey dagger dont use this module.
@@ -74,5 +77,46 @@ class NotesEndToEndTest {
         }
     }
 
+    @Test
+    fun saveNewNote_editAfterwards(){
+        composeRule
+            .onNodeWithContentDescription("Add note")
+            .performClick()
+        //now we are on the next screen after clicking floating button and also we have to add TestTags
+        composeRule
+            .onNodeWithTag(TestTags.TITLE_TEXT_FIELD)
+            .performTextInput("test_title") //this text will be entered in text field for title!
+        composeRule
+            .onNodeWithTag(TestTags.CONTENT_TEXT_FIELD)
+            .performTextInput("test_content")
 
+        composeRule
+            .onNodeWithContentDescription("Save note")
+            .performClick()
+        //Now we are again at first NotesScreen after saving EditedNote:
+        composeRule
+            .onNodeWithText("test_title")
+            .assertIsDisplayed() //checking is the note in our list.
+
+        composeRule
+            .onNodeWithText("test_title")
+            .performClick()
+        //we are again at EditNoteScreen of "test_title":
+        composeRule
+            .onNodeWithTag(TestTags.TITLE_TEXT_FIELD)
+            .assertTextEquals("test_title") //checking is the text in this note in field Title: test_title
+        composeRule
+            .onNodeWithTag(TestTags.CONTENT_TEXT_FIELD)
+            .assertTextEquals("test_content")
+        composeRule
+            .onNodeWithTag(TestTags.TITLE_TEXT_FIELD)
+            .performTextInput("2")
+        composeRule
+            .onNodeWithContentDescription("Save note")
+            .performClick() //saving again changed Note
+        //We are at NotesScreen again:
+        composeRule
+            .onNodeWithText("test_title2")
+            .assertIsDisplayed() //cheking can we find a changed Note in the list
+    }
 }
