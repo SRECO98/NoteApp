@@ -53,9 +53,13 @@ class NotesScreenTest{
     }
 
     @Test
-    fun clickToggleOrderSection_isVisible(){
-        composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertDoesNotExist()
+    fun clickToggleOrderSection_isVisible_isNotVisible(){
+        composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertDoesNotExist()//at start order radio buttons shouldnt be visible.
         composeRule.onNodeWithContentDescription("Sort").performClick()//finding icon and performing a click on it.
         composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertIsDisplayed()//check if this is displayed on our screen(visible)
+        composeRule.onNodeWithContentDescription("Sort").performClick()//closing options for ordering.
+        composeRule.onNodeWithTag(TestTags.ORDER_SECTION).assertDoesNotExist()//checking is button visible
     }
+
+
 }
